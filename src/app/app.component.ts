@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'mock-accountant-app';
+  title = 'mock-accountant-app1';
   constructor(
     public hs: HelperService,
     private router: Router
