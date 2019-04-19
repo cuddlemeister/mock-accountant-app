@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <form [formGroup]="loginForm">
+        <h2 class="text-center">Вход</h2>
+        <div class="form-group">
+          <input type="text" class="form-control" formControlName="email" placeholder="Email" required="required">
+          <div class="alert alert-danger" *ngIf="loginForm.touched && loginForm.get('email').errors?.required">
+            Это поле обязательно для заполнения
+          </div>
+          <div class="alert alert-danger" *ngIf="loginForm.get('email').errors?.email">
+            Пожалуйста, введите правильный email
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" formControlName="password" placeholder="Пароль" required="required">
+          <div class="alert alert-danger" *ngIf="loginForm.get('password').errors?.minlength">
+            Пароль должен быть не менее 8 символов
+          </div>
+          <div class="alert alert-danger" *ngIf="loginForm.touched && loginForm.get('password').errors?.required">
+           Это поле обязательно для заполнения
+          </div>
+        </div>
+        <div class="form-group">
+          <button (click)="login(true)" [disabled]="loginForm.invalid" type="button" class="btn btn-primary btn-block">Войти как клиент </button>
+          <button (click)="login()" [disabled]="loginForm.invalid" type="button" class="btn btn-primary btn-block">Войти как внутренний пользователь</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

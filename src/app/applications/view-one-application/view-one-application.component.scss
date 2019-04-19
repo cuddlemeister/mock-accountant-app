@@ -1,0 +1,100 @@
+.loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-group-addon {
+    width: 150px;
+}
+
+.form-group {
+    .has-error-tooltip {
+        display: none;
+    }
+
+    &.has-error .has-error-tooltip {
+        display: block;
+    }
+}
+
+.input-group {
+    width: 100%;
+
+    &.with-btn {
+        .input-group-addon {
+            display: block;
+            height: 34px;
+            line-height: 20px;
+        }
+
+        .input-group-btn {
+            width: 100%;
+
+            button {
+                width: 100%;
+            }
+        }
+    }
+}
+
+textarea {
+    resize: vertical;
+    min-height: 40px;
+}
+
+table {
+    td, th {
+        &:first-child {
+            text-align: center;
+        }
+
+    }
+
+    td {
+        input, select {
+            background-color: transparent;
+            border: none;
+            width: 100%;
+        }
+    }
+
+    .button_cell {
+        position: relative;
+        width: 100px;
+
+        .buttons {
+            position: absolute;
+            top: 1px;
+            display: flex;
+            right: 15px;
+
+            .btn {
+                background-color: transparent;
+            }
+        }
+    }
+
+    .number_cell {
+        width: 40px;
+    }
+
+    .type_cell {
+        width: 150px;
+    }
+
+    .sum_no_VAT_cell {
+        width: 200px;
+    }
+
+    .tax_code_cell {
+        width: 150px;
+    }
+}

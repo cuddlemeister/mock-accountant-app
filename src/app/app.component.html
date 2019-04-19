@@ -1,0 +1,11 @@
+<mat-toolbar *ngIf="hs.loggedIn">
+    <div class="image-container" *ngIf="hs.asClient">
+        <img src="assets/Kyivstar_logo15.png" alt="">
+    </div>
+    <div *ngIf="!hs.asClient">
+        Просмотр входящих заявок
+    </div>
+    <span class="spacer"></span>
+    <button mat-button (click)="exit()">Выход из системы</button>
+</mat-toolbar>
+<router-outlet></router-outlet>

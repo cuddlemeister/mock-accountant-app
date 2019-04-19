@@ -1,0 +1,165 @@
+<div class="loading-shade" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="container">
+  <div class="page-header">
+    <h1>Новая заявка</h1>
+  </div>
+  <div class="col-sm-6">
+    <form class="form-horizontal form-custom" [formGroup]="applicationForm">
+
+      <!-- BEGIN form-group line-1 -->
+      <div class="form-group" [ngClass]="applicationForm.get('supplier').touched && applicationForm.get('supplier').errors?.required ? 'has-error' : null">
+        <div class="input-group">
+          <span class="input-group-addon">Поставщик</span>
+          <input formControlName="supplier" type="text" class="form-control" placeholder="Поставщик">
+        </div>
+        <p class="has-error-tooltip help-block text-right">Это поле обязательно для заполнения</p>
+      </div>
+      <!-- END form-group line-1 -->
+
+      <!-- BEGIN form-group line-1 -->
+      <div class="form-group" [ngClass]="applicationForm.get('accounting_date').touched && applicationForm.get('accounting_date').errors?.required ? 'has-error' : null">
+        <div class="input-group">
+          <span class="input-group-addon">Учетная дата</span>
+          <input formControlName="accounting_date" type="text" readonly [matDatepicker]="accDatePicker" class="form-control" placeholder="{{currentDate}}">
+          <div class="input-group-btn">
+            <button class="btn btn-default" (click)="accDatePicker.open()">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+          </div>
+        </div>
+        <p class="has-error-tooltip help-block text-right">Это поле обязательно для заполнения</p>
+      </div>
+      <mat-datepicker touchUi #accDatePicker></mat-datepicker>
+      <!-- END form-group line-1 -->
+
+      <!-- BEGIN form-group line-1 -->
+      <div class="form-group" [ngClass]="applicationForm.get('invoice_date').touched && applicationForm.get('invoice_date').errors?.required ? 'has-error' : null">
+        <div class="input-group">
+          <span class="input-group-addon">Дата счёт-фактуры</span>
+          <input formControlName="invoice_date" type="text" readonly [matDatepicker]="invoiceDatePicker" class="form-control" placeholder="{{currentDate}}">
+          <div class="input-group-btn">
+            <button class="btn btn-default" (click)="invoiceDatePicker.open()">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+          </div>
+        </div>
+        <p class="has-error-tooltip help-block text-right">Это поле обязательно для заполнения</p>
+      </div>
+      <mat-datepicker touchUi #invoiceDatePicker></mat-datepicker>
+      <!-- END form-group line-1 -->
+
+      <!-- BEGIN form-group line-1 -->
+      <div class="form-group" [ngClass]="applicationForm.get('sum_with_VAT').touched && applicationForm.get('sum_with_VAT').errors?.required ? 'has-error' : null">
+        <div class="input-group">
+          <span class="input-group-addon">Сумма с НДС</span>
+          <input type="number" formControlName="sum_with_VAT" type="text" class="form-control" placeholder="1000.00">
+        </div>
+        <p class="has-error-tooltip help-block text-right">Это поле обязательно для заполнения</p>
+      </div>
+      <!-- END form-group line-1 -->
+
+      <!-- BEGIN form-group line-1 -->
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon">Валюта</span>
+          <select formControlName="currency" class="form-control">
+            <option value="UAH">UAH</option>
+            <option value="USD">USD</option>
+          </select>
+        </div>
+      </div>
+      <!-- END form-group line-1 -->
+
+      <!-- BEGIN form-group line-1 -->
+      <div class="form-group" [ngClass]="applicationForm.get('description').touched && applicationForm.get('description').errors?.required ? 'has-error' : null">
+        <div class="input-group">
+          <span class="input-group-addon">Описание СФ</span>
+          <textarea formControlName="description" type="text" class="form-control" placeholder="Введите описание.."></textarea>
+        </div>
+        <p class="has-error-tooltip help-block text-right">Это поле обязательно для заполнения</p>
+      </div>
+      <!-- END form-group line-1 -->
+
+    </form>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+
+      <table class="table table-bordered table-striped table-hover">
+        <thead>
+          <tr>
+            <th class="number_cell">#</th>
+            <th class="type_cell">Тип строки</th>
+            <th class="sum_no_VAT_cell">Сумма без НДС</th>
+            <th class="tax_code_cell">Код налога</th>
+            <th class="description_cell">Описание</th>
+            <th class="button_cell">
+              <div class="buttons">
+                <button class="btn" matTooltip="Добавить строку" (click)="add()">
+                  <i class="glyphicon glyphicon-plus"></i>
+                </button>
+              </div>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let element of data; let id = index" [class.danger]="element.invalid">
+            <td>
+              {{id + 1}}
+            </td>
+            <td>
+              <select value="{{element.type}}" (change)="updateList(id, 'type', $event)">
+                <option value="position">Позиция</option>
+                <option value="VAT">НДС</option>
+              </select>
+            </td>
+            <td>
+              <input type="number" (keyup)="updateList(id, 'sum_no_VAT', $event)" value="{{element.sum_no_VAT}}" placeholder="100.00">
+            </td>
+            <td>
+              <select value="{{element.tax_code}}" (change)="updateList(id, 'tax_code', $event)">
+                <option value="20">НДС 20%</option>
+                <option value="0">НДС 0%</option>
+              </select>
+            </td>
+            <td>
+              <input (keyup)="updateList(id, 'description', $event)" value="{{element.description}}" placeholder="Описание позиции">
+            </td>
+            <td class="button_cell">
+              <div class="buttons">
+                <button class="btn" matTooltip="Удалить строку" (click)="remove(id)">
+                  <i class="glyphicon glyphicon-remove"></i>
+                </button>
+                <button class="btn" matTooltip="Скопировать строку" (click)="copy(id)">
+                  <i class="glyphicon glyphicon-indent-right"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="alert alert-danger" *ngIf="errorState === 'INVALID_ROW'">
+        Некоторые поля в таблице заполнены неправильно.
+      </div>
+      <div class="alert alert-danger" *ngIf="errorState === 'INVALID_SUM'">
+        Сумма по столбцам не совпадает с заявленной.
+      </div>
+      <div class="alert alert-success" *ngIf="errorState === 'OK'">
+        Форма заполнена правильно.
+      </div>
+      <div class="btn-group">
+        <button [disabled]="applicationForm.invalid" class="btn btn-default" (click)="checkValidity()">
+          Проверить правильность заполнения
+        </button>
+        <button class="btn btn-primary" [disabled]="errorState !== 'OK'" (click)="sendForm()">
+          Отправить форму
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<div class="loading-shade" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="container">
+  <div class="page-header">
+    <h1>Просмотр заявки от {{application.invoice_date | date:'shortDate'}}</h1>
+  </div>
+  <div class="col-sm-6">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <strong>Поставщик: </strong>
+        {{application.supplier}}
+      </li>
+      <li class="list-group-item">
+        <strong>Учетная дата: </strong>
+        {{application.accounting_date | date:'shortDate'}}
+      </li>
+      <li class="list-group-item">
+        <strong>Дата счёт-фактуры: </strong>
+        {{application.invoice_date | date:'shortDate'}}
+      </li>
+      <li class="list-group-item">
+        <strong>Сумма с НДС: </strong>
+        {{application.sum_with_VAT}}
+      </li>
+      <li class="list-group-item">
+        <strong>Валюта: </strong>
+        {{application.currency}}
+      </li>
+      <li class="list-group-item">
+        <strong>Описание СФ: </strong>
+        {{application.description}}
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+
+      <table class="table table-bordered table-striped table-hover">
+        <thead>
+          <tr>
+            <th class="number_cell">#</th>
+            <th class="type_cell">Тип строки</th>
+            <th class="sum_no_VAT_cell">Сумма без НДС</th>
+            <th class="tax_code_cell">Код налога</th>
+            <th class="description_cell">Описание</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let element of application.rows; let id = index">
+            <td>
+              {{id + 1}}
+            </td>
+            <td>
+              {{element.type}}
+            </td>
+            <td>
+              {{element.sum_no_VAT}}
+            </td>
+            <td>
+              {{element.tax_code}}
+            </td>
+            <td>
+              {{element.description}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="btn-group">
+        <button class="btn btn-danger" (click)="done(true)">
+          Отклонить
+        </button>
+        <button class="btn btn-primary" (click)="done()">
+          Принять заявку
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
